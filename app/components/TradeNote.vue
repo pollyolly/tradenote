@@ -83,7 +83,7 @@ import PairList from "~/components/PairList";
     },
      created(){
       let initDb = () => {
-        Database.deleteDb();
+        // Database.deleteDb();
         Database.copyDb(); 
         Database.init();
       };
