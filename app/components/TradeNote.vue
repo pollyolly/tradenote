@@ -27,7 +27,7 @@
               <GridLayout
                     @doubleTap="tradeAction(item.id,item.buy_amount,item.sell_amount,item.pair,item.sell_date,$index+1)"
                     columns="25,100,*,*,50" rows="25,25" 
-                    :backgroundColor="item.buy_amount < item.sell_amount ? '#33CC00':'#CC0000'" 
+                    :backgroundColor="Number(item.buy_amount) < Number(item.sell_amount) ? '#33CC00':'#CC0000'" 
                     padding="1">
                     <Label :text="$index+1" class="text-col0" rowSpan="2" row="0" col="0" textAlignment="center" verticalAlignment="center"/>
                     <Label :text="item.coin+'/'+item.pair" class="text-col1" rowSpan="2" row="0" col="1" textAlignment="center" verticalAlignment="center"/>
@@ -35,7 +35,7 @@
                     <Label :text="'Sell: '+item.sell_amount" class="text-col2" row="1" col="2" textAlignment="left" verticalAlignment="top"/>
                     <Label :text="convertDate(item.buy_date)" class="text-col3" row="0" col="3" textAlignment="center" verticalAlignment="bottom"/>
                     <Label :text="convertDate(item.sell_date)" class="text-col3" row="1" col="3" textAlignment="center" verticalAlignment="top"/>
-                    <Label :text="item.buy_amount < item.sell_amount ? 'W':'L'" 
+                    <Label :text="Number(item.buy_amount) < Number(item.sell_amount) ? 'W':'L'" 
                     class="text-col4" rowSpan="2" row="0" col="4" textAlignment="center" verticalAlignment="center"/>
               </GridLayout>
             </v-template>
