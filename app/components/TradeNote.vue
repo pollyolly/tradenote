@@ -198,6 +198,7 @@ import PairList from "~/components/PairList";
               toast.show();
             }
           }
+          this.loadWinLose();
         });
       },
       coinAction(coin){
@@ -226,6 +227,7 @@ import PairList from "~/components/PairList";
             toast.backgroundColor = '#000';
             toast.show();
           }
+          this.loadWinLose();
         });
       },
       enableBuy(){

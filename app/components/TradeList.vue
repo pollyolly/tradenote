@@ -127,6 +127,7 @@ import MonthList from "~/components/MonthList";
           });
           this.buyChecked = false;
         }
+        this.loadWinLose();
       },
       convertDate(cdate){
         return Helper.dateFormat(cdate);
