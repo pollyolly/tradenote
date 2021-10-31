@@ -31,8 +31,8 @@ var model = {
                         "`id` INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "`coin` TEXT," +
                         "`pair` TEXT," +
-                        "`buy_amount` TEXT," +
-                        "`sell_amount` TEXT," +
+                        "`buy_amount` REAL," +
+                        "`sell_amount` REAL," +
                         "`buy_date` TEXT," +
                         "`sell_date` TEXT);");
                     db.execSQL("CREATE TABLE IF NOT EXISTS `"+tblPair+"` (" +

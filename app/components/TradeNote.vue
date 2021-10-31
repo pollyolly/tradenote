@@ -83,7 +83,7 @@ import PairList from "~/components/PairList";
     },
      created(){
       let initDb = () => {
-        // Database.deleteDb();
+        Database.deleteDb();
         Database.copyDb(); 
         Database.init();
       };
@@ -151,7 +151,7 @@ import PairList from "~/components/PairList";
       },
       saveTrade(){
           if(this.buyStatus && this.coinName!=''){
-            let buyValue = Math.round( this.buyValue * 100 + Number.EPSILON ) / 100;
+            let buyValue = Math.round(100*this.buyValue)/100;
             if(TradeNoteModel.addTrade([this.coinName, this.pairValue, buyValue, '', Helper.dateConvert(this.setDate), ''])){
               let toast = new Toasty({ text: 'Trade Buy @ '+this.buyValue });
               toast.textColor = '#C0C0C0';
@@ -162,7 +162,7 @@ import PairList from "~/components/PairList";
             }
           }
           if(this.sellStatus && this.tradeId != ''){
-              let sellValue = Math.round( this.sellValue * 100 + Number.EPSILON ) / 100;
+              let sellValue = Math.round(100*this.sellValue)/100;
               if(TradeNoteModel.updateTrade([sellValue, Helper.dateConvert(this.setDate), this.tradeId])){
                 let toast = new Toasty({ text: 'Trade Sold @ '+this.sellValue });
                 toast.textColor = '#C0C0C0';
