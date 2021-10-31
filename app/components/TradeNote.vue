@@ -151,7 +151,7 @@ import PairList from "~/components/PairList";
       },
       saveTrade(){
           if(this.buyStatus && this.coinName!=''){
-            let buyValue = Math.round(100*this.buyValue)/100;
+            let buyValue = Math.round(10000*this.buyValue)/10000;
             if(TradeNoteModel.addTrade([this.coinName, this.pairValue, buyValue, '', Helper.dateConvert(this.setDate), ''])){
               let toast = new Toasty({ text: 'Trade Buy @ '+this.buyValue });
               toast.textColor = '#C0C0C0';
@@ -162,7 +162,7 @@ import PairList from "~/components/PairList";
             }
           }
           if(this.sellStatus && this.tradeId != ''){
-              let sellValue = Math.round(100*this.sellValue)/100;
+              let sellValue = Math.round(10000*this.sellValue)/10000;
               if(TradeNoteModel.updateTrade([sellValue, Helper.dateConvert(this.setDate), this.tradeId])){
                 let toast = new Toasty({ text: 'Trade Sold @ '+this.sellValue });
                 toast.textColor = '#C0C0C0';
@@ -175,7 +175,7 @@ import PairList from "~/components/PairList";
           this.loadWinLose();
       },
       tradeAction(id,buyvalue,sellvalue,pair,selldate,row){
-        action("Choose action for Trade #"+row, "Cancel", ["Sell Trade", "Delete Trade"])
+        action("Choose action for Trade #"+row, "Cancel", ["Sell Trade","---","Delete Trade"])
         .then(result => {
           if(result==='Sell Trade'){
             this.buyValue = buyvalue;
@@ -202,7 +202,7 @@ import PairList from "~/components/PairList";
         });
       },
       coinAction(coin){
-        action("Choose action for "+coin, "Cancel", ["Select as Default","Delete coin data"])
+        action("Choose action for "+coin, "Cancel", ["Select as Default","---","Delete coin data"])
         .then(result => {
           if(result==='Select as Default'){
             this.coinName = coin;
