@@ -19,7 +19,7 @@
       </ScrollView>
       <GridLayout  col="0" row="2" columns="*,*" rows="30" marginLeft="10" marginRight="10">
         <Label text="Recent Trades" class="text-all" row="0" col="0" textAlignment="left" verticalAlignment="center"/>
-        <Label :text="'W/L:'+this.countWin+'-'+this.countLose" class="text-all" row="0" col="1" textAlignment="right" verticalAlignment="center"/>
+        <Label :text="'W/L:'+checkWinrate" class="text-all" row="0" col="1" textAlignment="right" verticalAlignment="center"/>
       </GridLayout>
       <ListView col="0" row="3"
             for="item in TRADE_LIST">
@@ -27,7 +27,7 @@
               <GridLayout
                     @doubleTap="tradeAction(item.id,item.buy_amount,item.sell_amount,item.pair,item.sell_date,$index+1)"
                     columns="25,100,*,*,50" rows="25,25" 
-                    :backgroundColor="Number(item.buy_amount) < Number(item.sell_amount) ? '#33CC00':'#CC0000'" 
+                    :backgroundColor="setBgWinLose(item.buy_amount,item.sell_amount) ? '#33CC00':'#CC0000'" 
                     padding="1">
                     <Label :text="$index+1" class="text-col0" rowSpan="2" row="0" col="0" textAlignment="center" verticalAlignment="center"/>
                     <Label :text="item.coin+'/'+item.pair" class="text-col1" rowSpan="2" row="0" col="1" textAlignment="center" verticalAlignment="center"/>
@@ -35,7 +35,7 @@
                     <Label :text="'Sell: '+item.sell_amount" class="text-col2" row="1" col="2" textAlignment="left" verticalAlignment="top"/>
                     <Label :text="convertDate(item.buy_date)" class="text-col3" row="0" col="3" textAlignment="center" verticalAlignment="bottom"/>
                     <Label :text="convertDate(item.sell_date)" class="text-col3" row="1" col="3" textAlignment="center" verticalAlignment="top"/>
-                    <Label :text="Number(item.buy_amount) < Number(item.sell_amount) ? 'W':'L'" 
+                    <Label :text="checkWinLose(item.buy_amount,item.sell_amount) ? 'W':'L'" 
                     class="text-col4" rowSpan="2" row="0" col="4" textAlignment="center" verticalAlignment="center"/>
               </GridLayout>
             </v-template>
@@ -93,7 +93,6 @@ import PairList from "~/components/PairList";
       this.coinName = CoinModel.checkDefaultCoin();
       this.$store.dispatch("SET_COIN_LIST");
       this.$store.dispatch("SET_TRADE_LIST",this.defaultCoin);
-      this.loadWinLose();
       eventbus.$on('setpair', (result)=>{
         this.pairValue = result;
       });
@@ -108,13 +107,12 @@ import PairList from "~/components/PairList";
       },
       defaultPair(){
         return this.pairValue;
+      },
+      checkWinrate(){
+        return this.countWin+'-'+this.countLose;
       }
     },
     methods:{
-      loadWinLose(){
-        this.countWin = TradeNoteModel.countWin();
-        this.countLose = TradeNoteModel.countLose();
-      },
       getDate(){
         picker.pickDate({
           theme: "#C0C0C0",
@@ -159,6 +157,7 @@ import PairList from "~/components/PairList";
               toast.show();
               this.disableAll();
               this.$store.dispatch("SET_TRADE_LIST",this.defaultCoin);
+              this.resetWinLose();
             }
           }
           if(this.sellStatus && this.tradeId != ''){
@@ -170,9 +169,9 @@ import PairList from "~/components/PairList";
                 toast.show();
                 this.disableAll();
                 this.$store.dispatch("SET_TRADE_LIST",this.defaultCoin);
+                this.resetWinLose();
               }
           }
-          this.loadWinLose();
       },
       tradeAction(id,buyvalue,sellvalue,pair,selldate,row){
         action("Choose action for Trade #"+row, "Cancel", ["Sell Trade","---","Delete Trade"])
@@ -188,6 +187,7 @@ import PairList from "~/components/PairList";
               toast.textColor = '#C0C0C0';
               toast.backgroundColor = '#000';
               toast.show();
+              this.resetWinLose();
           }
           if(result==='Delete Trade'){
             if(TradeNoteModel.deleteTrade([id])){
@@ -196,9 +196,9 @@ import PairList from "~/components/PairList";
               toast.textColor = '#C0C0C0';
               toast.backgroundColor = '#000';
               toast.show();
+              this.resetWinLose();
             }
           }
-          this.loadWinLose();
         });
       },
       coinAction(coin){
@@ -213,6 +213,7 @@ import PairList from "~/components/PairList";
               toast.textColor = '#C0C0C0';
               toast.backgroundColor = '#000';
               toast.show();
+              this.resetWinLose();
             }
 
           }
@@ -226,8 +227,8 @@ import PairList from "~/components/PairList";
             toast.textColor = '#C0C0C0';
             toast.backgroundColor = '#000';
             toast.show();
+            this.resetWinLose();
           }
-          this.loadWinLose();
         });
       },
       enableBuy(){
@@ -253,6 +254,26 @@ import PairList from "~/components/PairList";
       },
       convertDate(cdate){
         return Helper.dateFormat(cdate);
+      },
+      resetWinLose(){
+        this.countWin = 0;
+        this.countLose = 0;
+      },
+      setBgWinLose(buy_amount,sell_amount){
+        if(Number(buy_amount) < Number(sell_amount)){
+          return true;
+        } else {
+          return false;
+        }
+      },
+      checkWinLose(buy_amount,sell_amount){
+        if(Number(buy_amount) < Number(sell_amount)){
+          this.countWin++;
+          return true;
+        } else {
+          this.countLose++;
+          return false;
+        }
       }
     }
   };

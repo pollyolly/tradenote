@@ -89,8 +89,8 @@ const model = {
                                 'id':rows[row][0],
                                 'coin':rows[row][1],
                                 'pair':rows[row][2],
-                                'buy_amount':Math.round(100*rows[row][3])/100,
-                                'sell_amount':Math.round(100*rows[row][4])/100,
+                                'buy_amount':Math.round(10000*rows[row][3])/10000,
+                                'sell_amount':Math.round(10000*rows[row][4])/10000,
                                 'buy_date':rows[row][5],
                                 'sell_date':rows[row][6]
                             });

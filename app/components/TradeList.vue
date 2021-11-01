@@ -11,7 +11,7 @@
           <Button text="7 days" @tap="recentWeek" class="text-filter" row="0" col="2" />
           <Button text="Today" @tap="currentDay" class="text-filter" row="0" col="3" />
           <Label :text="'Trades: '+this.countTrade" class="text-all" row="1" col="0" colSpan="2" horizontalAlignment="left"/>
-          <Label :text="'W/L:'+this.countWin+'-'+this.countLose" class="text-all" row="1" col="2" colSpan="2" horizontalAlignment="right"/>
+          <Label :text="'W/L:'+checkWinrate" class="text-all" row="1" col="2" colSpan="2" horizontalAlignment="right"/>
       </GridLayout>
       <GridLayout  col="0" row="2" columns="*,*,*" rows="50">
           <check-box text="BUY" :checked="buyChecked" @checkedChange="buyChecked = $event.value" row="0" col="0"/>
@@ -22,7 +22,7 @@
             for="item in FILTER_LIST">
             <v-template>
               <GridLayout columns="25,100,*,*,50" rows="25,25" padding="1" marginBottom="2"
-                :backgroundColor="Number(item.buy_amount) < Number(item.sell_amount) ? '#33CC00':'#CC0000'" 
+                :backgroundColor="setBgWinLose(item.buy_amount,item.sell_amount) ? '#33CC00':'#CC0000'" 
                 >
                 <Label :text="$index+1" class="text-col0" rowSpan="2" row="0" col="0" textAlignment="center" verticalAlignment="center"/>
                 <Label :text="item.coin+'/'+item.pair" class="text-col1" rowSpan="2" row="0" col="1" textAlignment="center" verticalAlignment="center"/>
@@ -30,7 +30,7 @@
                 <Label :text="'Sell: '+item.sell_amount" class="text-col2" row="1" col="2" textAlignment="left" verticalAlignment="top"/>
                 <Label :text="convertDate(item.buy_date)" class="text-col3" row="0" col="3" textAlignment="center" verticalAlignment="bottom"/>
                 <Label :text="convertDate(item.sell_date)" class="text-col3" row="1" col="3" textAlignment="center" verticalAlignment="top"/>
-                <Label :text="Number(item.buy_amount) < Number(item.sell_amount) ? 'W':'L'" class="text-col4" rowSpan="2" row="0" col="4" textAlignment="center" verticalAlignment="center"/>
+                <Label :text="checkWinLose(item.buy_amount,item.sell_amount) ? 'W':'L'" class="text-col4" rowSpan="2" row="0" col="4" textAlignment="center" verticalAlignment="center"/>
             </GridLayout>
             </v-template>
       </ListView>
@@ -70,7 +70,6 @@ import MonthList from "~/components/MonthList";
         'filterBy': '',
         'dateSet': ''
       });
-      this.loadWinLose();
       eventbus.$on('setyear', (result)=>{
         this.setYear = result;
         this.dateSet = result;
@@ -88,14 +87,12 @@ import MonthList from "~/components/MonthList";
 		  ]),
       defaultCoin(){return this.coinName;},
       getBuystat(){return this.buyChecked;},
-      getSellstat(){return this.sellChecked;}
+      getSellstat(){return this.sellChecked;},
+      checkWinrate(){
+        return this.countWin+'-'+this.countLose;
+      }
     },
     methods:{
-      loadWinLose(){
-        this.countWin = TradeNoteModel.countWin();
-        this.countLose = TradeNoteModel.countLose();
-        this.countTrade = TradeNoteModel.countTrade();
-      },
       recentWeek(){
         this.filterBy = '7days'
         this.dateSet = '';
@@ -117,6 +114,7 @@ import MonthList from "~/components/MonthList";
             'dateSet': this.dateSet
           });
           this.sellChecked = false;
+          this.resetWinLose();
         }
         if(this.sellChecked){
           this.$store.dispatch("SET_FILTER_LIST",{
@@ -126,8 +124,8 @@ import MonthList from "~/components/MonthList";
             'dateSet': this.dateSet
           });
           this.buyChecked = false;
+          this.resetWinLose();
         }
-        this.loadWinLose();
       },
       convertDate(cdate){
         return Helper.dateFormat(cdate);
@@ -137,6 +135,26 @@ import MonthList from "~/components/MonthList";
       },
       showMonths(){
         this.$showModal(MonthList);
+      },
+      resetWinLose(){
+        this.countWin = 0;
+        this.countLose = 0;
+      },
+      setBgWinLose(buy_amount,sell_amount){
+        if(Number(buy_amount) < Number(sell_amount)){
+          return true;
+        } else {
+          return false;
+        }
+      },
+      checkWinLose(buy_amount,sell_amount){
+        if(Number(buy_amount) < Number(sell_amount)){
+          this.countWin++;
+          return true;
+        } else {
+          this.countLose++;
+          return false;
+        }
       }
     }
   };

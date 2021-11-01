@@ -76,51 +76,6 @@ const model = {
             });
         })
         return response
-    },
-    countTrade(){
-        let response = 0;
-        new Sqlite(database, function (err, db) {
-            db.all("SELECT COUNT(*) FROM "+tblTradenote+" WHERE  `buy_amount` > 0 AND `sell_amount` > 0;", [], function (err, count) {
-                if (err) {
-                    response = false
-                    console.log(err);
-                }
-                if(count > 0){
-                    response = count;
-                }
-            });
-        })
-        return response
-    },
-    countWin: function(){
-        let response = 0;
-        new Sqlite(database, function (err, db) {
-            db.all("SELECT COUNT(*) FROM "+tblTradenote+" WHERE  `buy_amount` <= `sell_amount`;", [], function (err, count) {
-                if (err) {
-                    response = false
-                    console.log(err);
-                }
-                if(count > 0){
-                    response = count;
-                }
-            });
-        })
-        return response
-    },
-    countLose: function(){
-        let response = 0;
-        new Sqlite(database, function (err, db) {
-            db.all("SELECT COUNT(*) FROM "+tblTradenote+" WHERE  `buy_amount` > `sell_amount`;", [], function (err, count) {
-                if (err) {
-                    response = false
-                    console.log(err);
-                }
-                if(count > 0){
-                    response = count;
-                }
-            });
-        })
-        return response
     }
 }
 export default model
