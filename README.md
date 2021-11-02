@@ -1,7 +1,7 @@
 # tradenote
 ```
 A simple implementation of Nativescript-Vue.
-TradeNote is an application that save a note of you buy and sell manually.
+TradeNote is an application that saves a note of your daily trade buy and sell.
 
 Development Environment:
 Nativescript Vue
