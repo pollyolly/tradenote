@@ -7,4 +7,4 @@ Run:
 cd tradenote
 tns run android --bundle --no-hmr
 ```
-![Alt text](https://github.com/pollyolly/tradenote/blob/main/tradenote-ss.png?raw=true | width=250)
+![](https://github.com/pollyolly/tradenote/blob/main/tradenote-ss.png?raw=true | width=250)
