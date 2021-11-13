@@ -49,6 +49,13 @@
         <TextField v-model="sellValue" hint="Sell @ 0.00" :isEnabled="sellStatus" class="buy-textfield" row="3" col="0" colSpan="2" keyboardType="number"/>
         <Button :text="this.saveText" @tap="saveTrade" class="save-button" row="4" col="0"  colSpan="2" horizontalAlignment="center"/>
       </GridLayout>
+       <fab
+        @tap="showCalculator"
+        text="i"
+        row="4"
+        rippleColor="#f1f1f1"
+        class="fab-button"
+      ></fab>
     </GridLayout>
   </Page>
 </template>
@@ -64,6 +71,7 @@ const picker = new ModalPicker();
 import CoinModel from "~/model/CoinModel";
 import TradeNoteModel from "~/model/TradeNoteModel";
 import PairList from "~/components/PairList";
+import CalcInvestment from "~/components/CalcInvestment";
   export default {
     data(){
       return{
@@ -252,6 +260,9 @@ import PairList from "~/components/PairList";
       showPair(){
         this.$showModal(PairList);
       },
+      showCalculator(){
+        this.$showModal(CalcInvestment);
+      },
       convertDate(cdate){
         return Helper.dateFormat(cdate);
       },
@@ -396,5 +407,15 @@ import PairList from "~/components/PairList";
   padding-left:30;
   padding-right:30;
   background-color:#C0C0C0;
+}
+.fab-button {
+  height: 50;
+  width: 50;
+  margin: 15;
+  background-color: #666666;
+  horizontal-align: right;
+  vertical-align: bottom;
+  font-size:15;
+  color:#fff;
 }
 </style>

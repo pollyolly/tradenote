@@ -40,6 +40,7 @@
     "@nativescript/core": "~8.0.0",
     "@nativescript/theme": "~3.0.1",
     "@nstudio/nativescript-checkbox": "^2.0.4",
+    "@nstudio/nativescript-floatingactionbutton": "^3.0.4",
     "@triniwiz/nativescript-toasty": "^4.1.3",
     "nativescript-modal-datetimepicker": "^2.1.5",
     "nativescript-sqlite": "^2.8.6",

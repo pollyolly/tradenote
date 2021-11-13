@@ -1,5 +1,6 @@
 import Vue from 'nativescript-vue'
 import { CheckBox } from '@nstudio/nativescript-checkbox';
+
 import routes from "~/router"
 import store from '~/store';
 import TradeNote from '~/components/TradeNote'
@@ -26,6 +27,10 @@ Vue.registerElement(
       event: 'checkedChange'
     }
   }
+);
+Vue.registerElement(
+  'Fab',
+  () => require('@nstudio/nativescript-floatingactionbutton').Fab
 );
 new Vue({
   store,
