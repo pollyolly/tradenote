@@ -13,10 +13,7 @@ Dependencies:
 "@nativescript/core": "~8.0.0",
 "@nativescript/theme": "~3.0.1",
 "@nstudio/nativescript-checkbox": "^2.0.4",
-<<<<<<< HEAD
 "@nstudio/nativescript-floatingactionbutton": "^3.0.4",
-=======
->>>>>>> 0e1aa5cb1d12a729dec274811b337ab22a2b4f5f
 "@triniwiz/nativescript-toasty": "^4.1.3",
 "nativescript-modal-datetimepicker": "^2.1.5",
 "nativescript-sqlite": "^2.8.6",
