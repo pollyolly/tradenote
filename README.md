@@ -4,7 +4,7 @@ A simple implementation of Nativescript-Vue.
 TradeNote is an application that saves a note of your daily trade buy and sell.
 
 Development Environment:
-Nativescript Vue
+Nativescript Vue 2
 Nativescript 8.1.4
 Vue @vue/cli 4.0.5
 NPM 6.11.2
