@@ -98,7 +98,7 @@ import CalcInvestment from "~/components/CalcInvestment";
       initDb();
     },
     mounted(){
-      this.getDefaultCoint();
+      this.getDefaultCoin();
       this.$store.dispatch("SET_COIN_LIST");
       this.$store.dispatch("SET_TRADE_LIST",this.defaultCoin);
       eventbus.$on('setpair', (result)=>{
@@ -121,8 +121,11 @@ import CalcInvestment from "~/components/CalcInvestment";
       }
     },
     methods:{
-      async getDefaultCoint(){
+      async getDefaultCoin(){
         this.coinName = await CoinModel.checkDefaultCoin();
+        await CoinModel.setDefaultCoin(this.coinName);
+        this.$store.dispatch("SET_COIN_LIST");
+        this.$store.dispatch("SET_TRADE_LIST",this.coinName);
       },
       getDate(){
         picker.pickDate({
