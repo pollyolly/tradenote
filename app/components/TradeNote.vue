@@ -12,7 +12,7 @@
             v-for="item in COIN_LIST" 
             :text="item.coin"
             v-bind:key="item.id" 
-            @doubleTap="coinAction(item.coin)" class="text-coin"
+            @tap="coinAction(item.coin)" class="text-coin"
             :backgroundColor="item.status > 0 ? '#000':'#666666'" 
             />
         </StackLayout>
