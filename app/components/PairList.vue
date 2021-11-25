@@ -10,7 +10,7 @@ import eventbus from '~/common/eventbus';
 export default {
     data() {
         return {
-            listOfItems:['USDT','PAX','TUSD','USDC','UST','DAI','KAI','BUSD','BNB','TUSDT','USDC'],
+            listOfItems:['USDT','PHP','PAX','TUSD','USDC','UST','DAI','KAI','BUSD','BNB','TUSDT','USDC'],
             selectedItem:0
         }                                                                     
     },

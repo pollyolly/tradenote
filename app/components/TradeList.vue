@@ -2,7 +2,7 @@
   <Page actionBarHidden="true">
     <GridLayout columns="*" rows="50,50,50,*" marginTop="30">
       <GridLayout  col="0" row="0" columns="*,*,*" rows="50" marginRight="10">
-        <Button text="Back" @tap="$navigateBack" class="text-button" row="0" col="0" />
+        <Button text="Back" @tap="this.navigateBack" class="text-button" row="0" col="0" />
         <Label :text="defaultCoin" class="page-title" row="0" col="1" textAlignment="center" verticalAlignment="center"/>
       </GridLayout>
       <GridLayout  col="0" row="1" columns="*,*,*,*" rows="40, 30, 30" marginLeft="10" marginRight="10" marginTop="10">
@@ -10,8 +10,8 @@
           <Button :text="this.setMonth" @tap="showMonths" class="text-filter-right" row="0" col="1" />
           <Button text="7 days" @tap="recentWeek" class="text-filter" row="0" col="2" />
           <Button text="Today" @tap="currentDay" class="text-filter" row="0" col="3" />
-          <Label :text="'Trades: '+this.countTrade" class="text-all" row="1" col="0" colSpan="2" horizontalAlignment="left"/>
-          <Label :text="'W/L:'+checkWinrate" class="text-all" row="1" col="2" colSpan="2" horizontalAlignment="right"/>
+          <!-- <Label :text="'Trades: '+this.countTrade" class="text-all" row="1" col="0" colSpan="2" horizontalAlignment="left"/> -->
+          <!-- <Label :text="'W/L:'+checkWinrate" class="text-all" row="1" col="2" colSpan="2" horizontalAlignment="right"/> -->
       </GridLayout>
       <GridLayout  col="0" row="2" columns="*,*,*" rows="50">
           <check-box text="BUY" :checked="buyChecked" @checkedChange="buyChecked = $event.value" row="0" col="0"/>
@@ -43,16 +43,15 @@ import { mapGetters } from 'vuex';
 import eventbus from '~/common/eventbus';
 import Helper from "~/common/helper.js";
 import CoinModel from "~/model/CoinModel";
-import TradeNoteModel from "~/model/TradeNoteModel";
-import TradeListModel from "~/model/TradeListModel";
+import TradeNote from "~/components/TradeNote";
 import YearList from "~/components/YearList";
 import MonthList from "~/components/MonthList";
   export default {
     data(){
-      return {
-        countWin:0,
-        countLose:0,
-        countTrade:0,
+      return {        
+        // countWin:0,
+        // countLose:0,
+        // countTrade:0,
         coinName:'',
         filterBy:'',
         dateSet:'',
@@ -63,6 +62,8 @@ import MonthList from "~/components/MonthList";
       }
     },
     mounted(){
+      // this.resetWinLose();
+      // this.resetState();
       this.coinName = CoinModel.checkDefaultCoin();
       this.$store.dispatch("SET_FILTER_LIST",{
         'buySell': '',
@@ -88,11 +89,28 @@ import MonthList from "~/components/MonthList";
       defaultCoin(){return this.coinName;},
       getBuystat(){return this.buyChecked;},
       getSellstat(){return this.sellChecked;},
-      checkWinrate(){
-        return this.countWin+'-'+this.countLose;
-      }
+      // checkWinrate(){
+      //   return this.countWin+'-'+this.countLose;
+      // }
     },
     methods:{
+      
+      // resetState(){
+      //   this.countWin = this.iniState().countWin;
+      //   this.countLose = this.iniState().countLose;
+      //   this.countTrade = this.iniState().countTrade;
+      // },
+      // iniState(){
+      //   return {
+      //     countWin:0,
+      //     countLose:0,
+      //     countTrade:0
+      //   }
+      // },
+      navigateBack(){
+        eventbus.$emit('callIniState', true);
+        this.$navigateTo(TradeNote);
+      },
       recentWeek(){
         this.filterBy = '7days'
         this.dateSet = '';
@@ -114,7 +132,8 @@ import MonthList from "~/components/MonthList";
             'dateSet': this.dateSet
           });
           this.sellChecked = false;
-          this.resetWinLose();
+          // this.resetWinLose();
+          // this.resetState();
         }
         if(this.sellChecked){
           this.$store.dispatch("SET_FILTER_LIST",{
@@ -124,7 +143,8 @@ import MonthList from "~/components/MonthList";
             'dateSet': this.dateSet
           });
           this.buyChecked = false;
-          this.resetWinLose();
+          // this.resetWinLose();
+          // this.resetState();
         }
       },
       convertDate(cdate){
@@ -136,10 +156,10 @@ import MonthList from "~/components/MonthList";
       showMonths(){
         this.$showModal(MonthList);
       },
-      resetWinLose(){
-        this.countWin = 0;
-        this.countLose = 0;
-      },
+      // resetWinLose(){
+      //   this.countWin = 0;
+      //   this.countLose = 0;
+      // },
       setBgWinLose(buy_amount,sell_amount){
         if(Number(buy_amount) < Number(sell_amount)){
           return true;
@@ -149,10 +169,10 @@ import MonthList from "~/components/MonthList";
       },
       checkWinLose(buy_amount,sell_amount){
         if(Number(buy_amount) < Number(sell_amount)){
-          this.countWin++;
+          // this.countWin++;
           return true;
         } else {
-          this.countLose++;
+          // this.countLose++;
           return false;
         }
       }

@@ -76,8 +76,8 @@ import CalcInvestment from "~/components/CalcInvestment";
     data(){
       return{
         setDate: Helper.dateFormat(new Date()),
-        countWin:0,
-        countLose:0,
+        countWin:this.iniState().countWin,
+        countLose:this.iniState().countLose,
         tradeId:'',
         buyStatus:false,
         sellStatus:false,
@@ -98,11 +98,15 @@ import CalcInvestment from "~/components/CalcInvestment";
       initDb();
     },
     mounted(){
+      this.resetState();
       this.getDefaultCoin();
       this.$store.dispatch("SET_COIN_LIST");
       this.$store.dispatch("SET_TRADE_LIST",this.defaultCoin);
       eventbus.$on('setpair', (result)=>{
         this.pairValue = result;
+      });
+      eventbus.$on('callIniState', ()=>{
+        this.resetState();
       });
     },
     computed: {
@@ -121,6 +125,16 @@ import CalcInvestment from "~/components/CalcInvestment";
       }
     },
     methods:{
+      resetState(){
+        this.countWin = this.iniState().countWin;
+        this.countLose = this.iniState().countLose;
+      },
+      iniState(){
+        return {
+          countWin:0,
+          countLose:0
+        }
+      },
       async getDefaultCoin(){
         this.coinName = await CoinModel.checkDefaultCoin();
         await CoinModel.setDefaultCoin(this.coinName);
